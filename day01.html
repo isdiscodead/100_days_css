@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 DAYS CSS CHALLENGE : 01</title>
+
+    <style> 
+        @import url(https://fonts.googleapis.com/css?family=Open+Sans:700,300);
+        
+        :root {
+            --white: #fff;
+            --black: #333;
+            --deep-blue: #43389F;
+            --light-blue: #4ec6ca;
+        }
+
+        .frame {
+            margin: 10% auto;
+            width: 400px;
+            height: 400px;
+            /* 내부 요소들 일렬로 가운데 정렬 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 4px 8px 16px 0 rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            color: var(--black);
+            font-family: "Open Sans", Helvetica, sans-serif;
+            /* 텍스트 렌더링 시 부드럽게 표현됨 */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            /* linear-gradient() */
+            background: linear-gradient(to top right, var(--deep-blue) 0%, var(--light-blue) 100%);
+            border-radius: 5px;
+        }        
+
+        .numbers {
+            width: 55%;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .one {
+            width: 25px;
+            height: 100%;
+            position: relative;
+            background-color: var(--white);
+            border-radius: 5px;
+            /* 자식 요소를 3d 공간에 배치 */
+            transform-style: preserve-3d;
+            transform: translateX(25px); /* X축으로 25px 이동 */
+            box-shadow: 0px 8px 20px rgba(0,0,0,0.5);
+            z-index: 3;
+        }
+
+        /* .one 태그의 뒤에 대한 css, after는 태그 앞에 대해 css */
+        .one::before {
+            width: 85%;
+            height: 45%;
+            /* before, after와 함께 쓰이며 텍스트나 이미지 등을 추가함 ( 디자인 요소로 간주 )*/
+            content: "";
+            position: absolute;
+            background-color: var(--white);
+            /* 회전 중심 설정 */
+            transform-origin: left top;
+            /* 1의 짧은 부분을 위해 50도 회전, 오른쪽 아래로 살짝 이동 */
+            transform: rotate(50deg) translate(2px, -5px) translateZ(-1px);
+            border-radius: 5px;
+        }
+
+        .zero {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-items: center;
+        }
+
+        /* 2번째 0의 레이어를 뒤로 변경, 오른쪽으로 이동 */
+        .zero:nth-child(2) {
+            transform: translateX(15px);
+            z-index: 2;
+        }   
+
+        .zero::before {
+            width: 50%;
+            height: 50%;
+            position: absolute;
+            content: "";
+            background-color: transparent;
+            border: 25px solid var(--white);
+            border-radius: 50%;
+            z-index: 1;
+            box-shadow: 0px 8px 20px rgba(0,0,0,0.5);
+        }
+
+        .text--large {
+            font-size: 4.5rem;
+            color: var(--white);
+            margin: 0;
+        }
+
+        .text--small {
+            font-size: 1.5rem;
+            color: var(--white);
+            margin: 0;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="frame">
+        <div class="numbers">
+            <div class="one"></div>
+            <div class="zero"></div>
+            <div class="zero"></div>
+        </div>
+        <h1 class="text--large">DAYS</h1>
+        <h3 class="text--small">CSS CHALLENGE</h1>
+    </div>
+
+    <p>
+        <h3>Position 속성</h3>
+        <b>position static</b> -> 원래 있어야 할 위치 <br>
+        <b>relative</b> -> 원래 위치에서부터 벗어나게 지정 가능 <br>
+        <b>absolute</b> -> 상위 요소의 위치를 기준으로 이동 <br>
+        ✏️ absolute로 설정 시 부모 요소를 relative로 설정하는 것이 관례 <br>
+        <b>fixed</b> -> 브라우저 전체화면을 기준으로 고정된 위치
+    </p>
+</body>
+</html>
