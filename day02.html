@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 DAYS CSS : 02</title>
+
+    <style>
+        .frame {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 400px;
+            height: 400px;
+            margin-top: -200px;
+            margin-left: -200px;
+            border-radius: 20px;
+            box-shadow: 4px 8px 16px 0 rgba(0, 0, 0, 0.1);
+            background: linear-gradient(-90deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 500% 500%;
+            /* 뒤의 속성은 animation-direction, iteration-count를 뜻함 */
+            animation: gradient 5s ease alternate infinite;
+        }
+
+        /* animation 설정, from과 to 대신에 %로 지점 설정 가능 */
+        @keyframes gradient {
+            from {
+                background-position: 0 50%;
+            }
+            to {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* 클릭 유도를 위해 커서 변경 */
+        .line_container {
+            cursor: pointer;
+        }
+
+        /* 체크박스 및 라벨 가운데 정렬 !! */
+        .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .line {
+            width: 70px;
+            height: 10px;
+            margin-bottom: 5px;
+            background-color: white;
+            border-radius: 5px;
+        }
+
+        .checkbox {
+            display: none;
+        }
+
+        /* line 1 : */
+
+    </style>
+</head>
+<body>
+    <div class="frame">
+        <div class="center">
+            <input type="checkbox" id="click" class="checkbox">
+            <label for="click" class="label">
+                <div class="line_container">
+                    <div class="line line1"></div>
+                    <div class="line line2"></div>
+                    <div class="line line3"></div>
+                </div>
+            </label>
+        </div>
+
+    </div>
+</body>
+</html>
