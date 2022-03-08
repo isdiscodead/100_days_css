@@ -59,7 +59,104 @@
         }
 
         /* line 1 : */
+        /* :not()은 괄호 안에 오는 선택자에 해당 시 제외 ! */
+        /* ~ *은 다음에 있는 모든 요소 선택  */
+        .checkbox:not(:checked) ~ * .line1 { 
+            animation: line1-rev .9s ease-in forwards;
+        }
 
+        .checkbox:checked ~ * .line1 {
+            animation: line1 .9s ease-in forwards;
+            z-index: 1;
+        }
+
+        /* X자 만들기 위해 회전, */ 
+        @keyframes line1 {
+            0% {
+                transform: translate3d(0,0,0) rotate(0);
+            }
+            50% {
+                transform: translate3d(0, 15px, 0) rotate(0);
+            }   
+            100% {
+                transform: translate3d(0, 15px, 0) rotate(-135deg);
+            }
+        }
+
+        /* 풀리는 방향 */
+        @keyframes line1-rev {
+            0% {
+                transform: translate3d(0, 15px,0) rotate(-45deg);
+            }
+            50% {
+                transform: translate3d(0, 15px, 0) rotate(0);
+            }   
+            100% {
+                transform: translate3d(0, 0, 0) rotate(0);
+            }
+        }
+
+        /* line 2 */
+        .checkbox:not(:checked) ~ * .line2 {
+            animation: line2-rev 1s ease-in forwards;
+        }
+
+        .checkbox:checked ~ * .line2 {
+            animation: line2 .5s ease-in forwards;
+        }
+
+        /* 크기 줄어들고 커지는 것은 transform: scale() 사용 */
+        @keyframes line2 {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(0);
+            }
+        }
+
+        @keyframes line2-rev {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        /* line 3 */
+        .checkbox:not(:checked) ~ * .line3 {
+            animation: line3-rev .9s ease-in forwards;
+        }
+
+        .checkbox:checked ~ * .line3 {
+            animation: line3 .9s ease-in forwards;
+            z-index: 0;
+        }
+
+        @keyframes line3 {
+            0% {
+                transform: translate3d(0,0,0) rotate(0);
+            }
+            50% {
+                transform: translate3d(0, -15px, 0) rotate(0);
+            }   
+            100% {
+                transform: translate3d(0, -15px, 0) rotate(-225deg);
+            }
+        }
+
+        @keyframes line3-rev {
+            0% {
+                transform: translate3d(0, -15px,0) rotate(135deg);
+            }
+            50% {
+                transform: translate3d(0, -15px, 0) rotate(0);
+            }   
+            100% {
+                transform: translate3d(0, 0, 0) rotate(0);
+            }
+        }
     </style>
 </head>
 <body>
