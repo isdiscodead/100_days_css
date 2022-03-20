@@ -1,1 +1,69 @@
-test
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Days CSS : Day 03</title>
+
+    <style>
+        .frame {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 400px;
+            height: 400px;
+            margin-top: -200px;
+            margin-left: -200px;
+            border-radius: 2px;
+            box-shadow: 4px 8px 16px 0 rgba(0,0,0,0.1);
+            overflow: hidden;
+            color: #333;
+            background-color: #272C34;
+        }
+
+        .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            /*transform: translate(-50%, -50%);*/
+        }
+
+        .background-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 100%; /* 원형으로 */
+            background-color: #7DDFFC;
+            overflow: hidden; /* 원래 사이즈(200*200) 넘는 내용은 숨기기 */
+        }
+
+        @keyframes sunMove { /* 해가 뜨고 지는 애니메이션 rotate(xdeg) 사용 */
+            0% {
+                transform: rotate(-90deg);
+                background-color: orange;
+            }
+            50% {
+                transform: rotate(-30deg);
+                background-color: #FFEF00;
+            }
+            100% {
+                transform: rotate(75deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="frame">
+        <div class="center">
+              <div class="circle">
+                  <div class="sky"></div>
+                  <div class="sun"></div>
+                  <div class="mount-left"></div>
+                  <div class="mount-right"></div>
+                  <div class="shadow"></div>
+                  <div class="ground"></div>
+              </div>
+        </div>
+      </div>
+</body>
+</html>
