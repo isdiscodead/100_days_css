@@ -26,7 +26,7 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            /*transform: translate(-50%, -50%);*/
+            transform: translate(-50%, -50%); /* 가운데로 옮겨줌 */
         }
 
         .background-circle {
@@ -50,19 +50,144 @@
                 transform: rotate(75deg);
             }
         }
+
+        .sun {
+            top: 10px;
+            left: 100px;
+            position: relative;
+            background-color: #FFEF00;
+            border-radius: 100%;
+            width: 35px;
+            height: 35px;
+            transform-origin: 0% 400%;
+            /* cubic-bezier: 점 위치를 통해 곡선 생성 */
+            animation: sunMove 4s cubic-bezier(0.4, 0, 0.49, 1) infinite;
+        }
+
+        .triangle {
+            position: absolute;
+            background-color: white;
+        }
+
+        @keyframes right-side-color {
+            0% {
+                background: #afacac;
+            }
+            50% {
+                background: #DDDADA;
+            }
+            100% {
+                background: white;
+            }
+        }
+
+        @keyframes left-side-color {
+            0% {
+                background: white;
+            }
+            50% {
+                background: white;
+            }
+            100% {
+                background: #afacac;
+            }
+        }
+
+        .left-side {
+            height: 65px;
+            width: 100px;
+            top: 80px;
+            left: 30px;
+            /* clip-path : 요소의 일부분 잘라내기 */
+            /* 각 꼭짓점의 위치로 설정 */
+            /* https://bennettfeely.com/clippy/ 에서 폴리곤 찾기 가능 */ 
+            clip-path: polygon(0% 100%, 100% 100%, 70% 0%);
+            animation: left-side-color 4s cubic-bezier(0.4, 0, 0.49, 1) infinite;
+        }
+
+        .right-side {
+            height: 65px;
+            width: 70px;
+            clip-path: polygon(30% 100%, 100% 100%, 0% 0%);
+            top: 80px;
+            left: 100px;
+            animation: right-side-color 4s cubic-bezier(0.4, 0, 0.49, 1) infinite;
+        }
+
+        .sand {
+            position: relative;
+            background-color: #F0DE75;
+            height: 100px;
+            width: 100%;
+            top: 110px;
+        }
+
+        @keyframes shadowAnimation {
+            0% {
+                left: 730px;
+                /* skew(xdeg, ydeg) : 경사 변형 지정  */
+                transform: skew(86deg);
+            }
+            50% {
+                left: 215px;
+                transform: skewX(75deg);
+            }
+            100% {
+                left: -537px;
+                transform: skew(-85deg);
+            }
+        }
+        .shadow {
+            position: relative;
+            top: 0px;
+            width: 140px;
+            height: 100px;
+            clip-path: polygon(50% 30%, 0% 0%, 100% 0%);
+            background-color: rgba(0, 0, 0, 0.2);
+            animation: shadowAnimation 4s cubic-bezier(0.4, 0, 0.49, 1) infinite;
+        }
+
+        @keyframes night {
+            0% {
+                background-color: #272C34;
+            }
+            50% {
+                background-color: transparent;
+            }
+            70% {
+                background-color: transparent;
+            }
+            100% {
+                background-color: #272C34;
+            }
+        }
+
+        .frame-opacity {
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            width: 210px;
+            height: 210px;
+            border-radius: 100%;
+            animation: night 4s cubic-bezier(0.4, 0, 0.49, 1) infinite;
+        }
+        
     </style>
 </head>
 <body>
     <div class="frame">
         <div class="center">
-              <div class="circle">
-                  <div class="sky"></div>
+              <div class="background-circle">
                   <div class="sun"></div>
-                  <div class="mount-left"></div>
-                  <div class="mount-right"></div>
-                  <div class="shadow"></div>
-                  <div class="ground"></div>
+                  <div class="pyramide">
+                      <div class="triangle left-side"></div>
+                      <div class="triangle right-side"></div>
+                  </div>
+                  <div class="sand">
+                    <div class="shadow"></div>
+                  </div>
               </div>
+              <div class="frame-opacity"></div>
         </div>
       </div>
 </body>
