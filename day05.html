@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>100Days CSS : DAY 05</title>
+    <style>
+        /* 얘는 뭔 폰트를 이렇게 많이 가져왓누 */
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+        :root {
+            --red: #fa7373;
+            --blue: #7ba2ff;
+            --green: #42A7A1;
+            --yellow: #F1BA64;
+        }
+
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .frame {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 400px;
+            height: 400px;
+            margin-top: -200px;
+            margin-left: -200px;
+            border-radius: 8px;
+            box-shadow: 4px 8px 16px 0 rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            /* 내용물 빠져나오지 않게 ... */
+            background: white;
+            color: #333;
+            font-family: 'Open Sans', Helvetica, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: var(--green);
+        }
+
+        .center {
+            /* 안의 내용도 가운데 정렬 */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #card {
+            height: 220px;
+            width: 280px;
+            /* 그래프 등 표시되는 부분 width, height 설정 */
+            box-shadow: rgba(0, 0, 0, 0.3) 10px 10px 15px 0px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        #header {
+            height: 27.5%;
+            width: 100%;
+            background-color: var(--yellow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #bottom-card {
+            /* header랑 card bottom 부분이 height 100%를 나눠서 가짐 */
+            height: 72.5%;
+            width: 100%;
+            background-color: white;
+        }
+
+        #time,
+        #revenue {
+            display: flex;
+            flex-direction: column;
+            color: white;
+        }
+
+        #time {
+            margin-left: 5%;
+        }
+
+        #revenue {
+            align-items: flex-end;
+            width: 90px;
+            margin-right: 15px;
+        }
+
+        #time-name {
+            text-transform: uppercase;
+            font-weight: 600;
+            font-size: 90%;
+        }
+
+        #date {
+            font-size: 70%;
+        }
+
+        #revenue-name {
+            font-size: 70%;
+        }
+
+        #amount {
+            font-size: 90%;
+            font-weight: 600;
+        }
+
+        #legend {
+            width: 100%;
+            height: 25%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .legend-color {
+            width: 10.5px;
+            height: 2.9px;
+            border-radius: 10px;
+            margin-bottom: 4px;
+        }
+
+        #legend-red {
+            background-color: var(--red);
+        }
+
+        #legend-blue {
+            background-color: var(--blue);
+        }
+
+        #views,
+        #purchases {
+            display: flex;
+            font-size: 55%;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-right: 4%;
+            margin-top: 2%;
+        }
+
+        #views {
+            width: 15%;
+            padding-right: 4.5%;
+        }
+
+        #purchases {
+            width: 22.5%;
+        }
+
+        #graph {
+            height: 50%;
+            margin-top: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            background-color: transparent;
+        }
+
+        .background-line {
+            width: 90%;
+            height: 1px;
+            background-color: rgba(128, 128, 128, 0.158);
+        }
+
+        #lines {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            color: transparent;
+        }
+
+        .point {
+            height: 6px;
+            width: 6px;
+            border-radius: 100%;
+            cursor: pointer;
+            z-index: 3;
+        }
+
+        .pop-up {
+            /* 데이터 숫자들 처음에 안 보이게 !! */
+            visibility: hidden;
+            opacity: 0%;
+            transition: 200ms ease-in-out;
+            z-index: 3;
+        }
+
+        .pop-up h1 {
+            /* 툴팁에 보이도록 */
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .square {
+            width: 29px;
+            height: 22.5px;
+            border-radius: 3px;
+            top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .triangle {
+            position: absolute;
+            top: 17px;
+            left: 4.5px;
+            width: 20px;
+            height: 20px;
+            clip-path: polygon(50% 50%, 0% 0%, 100% 0%);
+            /* tooltip 삼각형 모양 */
+        }
+
+        #views-line div {
+            /* 빨간 라인 그래프 */
+            background-color: var(--red);
+        }
+
+        #purchases-line div {
+            /* 파란 라인 그래프 */
+            background-color: var(--blue);
+        }
+
+        #purchases-line div,
+        #views-line div,
+        #views-line span,
+        #purchase-line span {
+            position: absolute;
+            /* 직접 위치 지정할 수 있도록 ... */
+        }
+
+        /* red 첫번째 컬럼 */
+        #views-1 {
+            top: calc(182px - 458px*0.08);
+            /* calc 메서드로 데이터 값에 따라 높이 지정 */
+            left: 25px;
+        }
+
+        #pop-views-1 {
+            top: 112px;
+            left: 13px;
+        }
+
+        #views-1:hover+#pop-views-1 {
+            /* 뷰에 마우스 올라오면 바로 옆의 툴팁 보이게 */
+            visibility: visible;
+            opacity: 100%;
+            top: 106.5px;
+        }
+
+        /* red 2번째 컬럼 */
+        #views-2 {
+            top: calc(182px - 812px * 0.08);
+            left: 63px;
+        }
+
+        #pop-views-2 {
+            top: 85px;
+            left: 51px;
+        }
+
+        #views-2:hover+#pop-views-2 {
+            visibility: visible;
+            opacity: 100%;
+            top: 79px;
+        }
+
+        /* red 3번째 컬럼 */
+        #views-3 {
+            top: calc(182px - 746px * 0.08);
+            left: 103.5px;
+        }
+
+        #pop-views-3 {
+            /* 아니 ... 근데 이렇게 하드 코딩 할 수 밖에 없나 ㄱ- */
+            top: 88px;
+            left: 91.5px;
+        }
+
+        #views-3:hover+#pop-views-3 {
+            visibility: visible;
+            opacity: 100%;
+            top: 83px;
+        }
+
+        /* red 4번째 컬럼 */
+        #views-4 {
+            top: calc(182px - 877px * 0.08);
+            left: 145px;
+        }
+
+        #pop-views-4 {
+            top: 78px;
+            left: 133.5px;
+        }
+
+        #views-4:hover+#pop-views4 {
+            visibility: visible;
+            opacity: 100%;
+            top: 73px;
+        }
+
+        /* red 5번째 컬럼 */
+        #views-5 {
+            top: calc(182px - 517px * 0.08);
+            left: 180px;
+        }
+
+        #pop-views-5 {
+            top: 106px;
+            left: 168.5px;
+        }
+
+        #views-5:hover+#pop-views5 {
+            visibility: visible;
+            opacity: 100%;
+            top: 101px;
+        }
+
+        /* red 6번째 컬럼 */
+        #views-6 {
+            top: calc(182px - 434px * 0.08);
+            left: 215px;
+        }
+
+        #pop-views-6 {
+            top: 113px;
+            left: 204px;
+        }
+
+        #views-6:hover+#pop-views6 {
+            visibility: visible;
+            opacity: 100%;
+            top: 108px;
+        }
+
+
+        /* red 4번째 컬럼 */
+        #views-7 {
+            top: calc(182px - 458px * 0.08);
+            left: 252.5px;
+        }
+
+        #pop-views-7 {
+            top: 111px;
+            left: 240.5px;
+        }
+
+        #views-7:hover+#pop-views7 {
+            visibility: visible;
+            opacity: 100%;
+            top: 106px;
+        }
+
+        .line {
+            height: 2px;
+        }
+
+        /* line graph들 변경 */
+        #line-views-1 {
+            top: 132.5px;
+            left: 25px;
+            width: 45px;
+            transform: rotate(-36deg);
+        }
+
+        #line-views-2 {
+            top: 122px;
+            left: 66.5px;
+            width: 40px;
+            transform: rotate(8deg);
+        }
+
+        #line-views-3 {
+            top: 119.5px;
+            left: 103.5px;
+            width: 45px;
+            transform: rotate(-14deg);
+        }
+
+        #line-views-4 {
+            top: 127.5px;
+            left: 142px;
+            width: 45px;
+            transform: rotate(40deg);
+        }
+
+        #line-views-5 {
+            top: 146px;
+            left: 180px;
+            width: 40px;
+            transform: rotate(11deg);
+        }
+
+        #line-views-6 {
+            top: 148.5px;
+            left: 215px;
+            width: 40px;
+            transform: rotate(-3deg);
+        }
+
+        /* blue 컬럼 1 */
+        #purchases-1 {
+            top: calc(182px - 26px*0.8);
+            left: 25px;
+        }
+
+        #pop-purchases-1 {
+            top: 127px;
+            left: 14px;
+        }
+
+        #purchases-1:hover+#pop-purchases-1 {
+            visibility: visible;
+            opacity: 100%;
+            top: 122px;
+        }
+
+        /* blue 컬럼 2 */
+        #purchases-2 {
+            top: calc(182px - 41px*0.8);
+            left: 63px;
+        }
+
+        #pop-purchases-2 {
+            top: 116px;
+            left: 52px;
+        }
+
+        #purchases-2:hover+#pop-purchases-2 {
+            visibility: visible;
+            opacity: 100%;
+            top: 111px;
+        }
+
+        /* blue 컬럼 3 */
+        #purchases-3 {
+            top: calc(182px - 22px*0.8);
+            left: 103.5px;
+        }
+
+        #pop-purchases-3 {
+            top: 130.5px;
+            left: 92px;
+        }
+
+        #purchases-3:hover+#pop-purchases-3 {
+            visibility: visible;
+            opacity: 100%;
+            top: 125.5px;
+        }
+
+        /* blue 컬럼 4 */
+        #purchases-4 {
+            top: calc(182px - 36px*0.8);
+            left: 145px;
+        }
+
+        #pop-purchases-4 {
+            top: 119px;
+            left: 133.5px;
+        }
+
+        #purchases-4:hover+#pop-purchases-4 {
+            visibility: visible;
+            opacity: 100%;
+            top: 114px;
+        }
+
+        /* blue 컬럼 5 */
+        #purchases-5 {
+            top: calc(182px - 25px*0.8);
+            left: 180px;
+        }
+
+        #pop-purchases-5 {
+            top: 128px;
+            left: 168.5px;
+        }
+
+        #purchases-5:hover+#pop-purchases-5 {
+            visibility: visible;
+            opacity: 100%;
+            top: 123px;
+        }
+
+        /* blue 컬럼 6 */
+        #purchases-6 {
+            top: calc(182px - 13px*0.8);
+            left: 215px;
+        }
+
+        #pop-purchases-6 {
+            top: 136px;
+            left: 203.5px;
+        }
+
+        #purchases-6:hover+#pop-purchases-6 {
+            visibility: visible;
+            opacity: 100%;
+            top: 131px;
+        }
+
+        /* blue 컬럼 7 */
+        #purchases-7 {
+            top: calc(182px - 20px*0.8);
+            left: 252.5px;
+        }
+
+        #pop-purchases-7 {
+            top: 131px;
+            left: 241px;
+        }
+
+        #purchases-7:hover+#pop-purchases-7 {
+            visibility: visible;
+            opacity: 100%;
+            top: 126px;
+        }
+
+        /* blue line graph */
+        #line-purchases-1 {
+            top: 158px;
+            left: 25px;
+            width: 40px;
+            transform: rotate(-18deg);
+        }
+
+        #line-purchases-2 {
+            top: 159px;
+            left: 66.5px;
+            width: 40px;
+            transform: rotate(21deg);
+        }
+
+        #line-purchases-3 {
+            top: 161px;
+            left: 103.5px;
+            width: 45px;
+            transform: rotate(-16deg);
+        }
+
+        #line-purchases-4 {
+            top: 160px;
+            left: 150px;
+            width: 35px;
+            transform: rotate(15deg);
+        }
+
+        #line-purchases-5 {
+            top: 168px;
+            left: 180px;
+            width: 40px;
+            transform: rotate(15.5deg);
+        }
+
+        #line-purchases-6 {
+            top: 171px;
+            left: 215px;
+            width: 40px;
+            transform: rotate(-9deg);
+        }
+
+        #days {
+            /* 요일 목차들 */
+            width: 90%;
+            height: 20%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-left: 5%;
+            font-size: 9px;
+            color: rgba(128, 128, 128, 0.85);
+        }
+    </style>
+</head>
+
+<div class="frame">
+    <div class="center">
+        <div id="card">
+            <div id="header">
+                <div id="time">
+                    <span id="time-name">Weekly Report</span>
+                    <span id="date">01. Feb - 07. Feb</span>
+                </div>
+                <div>
+                    <div id="revenue">
+                        <span id="revenue-name">Revenue</span>
+                        <span id="amount">$ 3621.79</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="bottom-card">
+                <div id="legend">
+                    <div id="views">
+                        <div class="legend-color" id="legend-red"></div>
+                        <span>Views</span>
+                    </div>
+
+                    <div id="purchases">
+                        <div class="legend-color" id="legend-blue"></div>
+                        <span>Purchases</span>
+                    </div>
+                </div>
+
+                <div id="graph">
+                    <div class="background-line"></div>
+                    <div class="background-line"></div>
+                    <div class="background-line"></div>
+
+                    <div id="lines">
+                        <div id="views-line">
+                            <div class="point" id="views-1"></div>
+                            <span class="pop-up" id="pop-views-1">
+                                <div class="square">
+                                    <div class="triangle"></div>
+                                    <h1>458</h1>
+                                </div>
+                            </span>
+
+                            <div class="line" id="line-views-1"></div>
+                            <div class="point" id="views-2"></div>
+                            <span class="pop-up" id="pop-views-2">
+                                <div class="square">
+                                    <div class="triangle"></div>
+                                    <h1>812</h1>
+                                </div>
+                            </span>
+
+                            <div class="line" id="line-views-2"></div>
+                            <div class="point" id="views-3"></div>
+                            <span class="pop-up" id="pop-views-3">
+                                <div class="square">
+                                    <div class="triangle"></div>
+                                    <h1>746</h1>
+                                </div>
+                            </span>
+
+                            <div class="line" id="line-views-3"></div>
+                            <div class="point" id="views-4"></div>
+                            <span class="pop-up" id="pop-views-4">
+                                <div class="square">
+                                    <div class="triangle"></div>
+                                    <h1>877</h1>
+                                </div>
+                            </span>
+
+                            <div class="line" id="line-views-4"></div>
+                            <div class="point" id="views-5"></div>
+                            <span class="pop-up" id="pop-views-5">
+                                <div class="square">
+                                    <div class="triangle"></div>
+                                    <h1>517</h1>
+                                </div>
+                            </span>
+
+                            <div class="line" id="line-views-5"></div>
+                            <div class="point" id="views-6"></div>
+                            <span class="pop-up" id="pop-views-6">
+                                <div class="square">
+                                    <div class="triangle"></div>
+                                    <h1>434</h1>
+                                </div>
+                            </span>
+
+                            <div class="line" id="line-views-6"></div>
+                            <div class="point" id="views-7"></div>
+                            <span class="pop-up" id="pop-views-7">
+                                <div class="square">
+                                    <div class="triangle"></div>
+                                    <h1>458</h1>
+                                </div>
+                            </span>
+                        </div>
+
+                        <div id="purchases-line">
+                            <div class="point" id="purchases-1"></div>
+                            <span class="pop-up" id="pop-purchases-1">
+                                <div class="square">
+                                    <div class="triangle"></div>
+                                    <h1>26</h1>
+                                </div>
+                            </span>
+
+                            <div class="line" id="line-purchases-1"></div>
+                            <div class="point" id="purchases-2"></div>
+                            <span class="pop-up" id="pop-purchases-2">
+                                <div class="square">
+                                    <div class="triangle"></div>
+                                    <h1>41</h1>
+                                </div>
+                            </span>
+
+                            <div class="line" id="line-purchases-2"></div>
+                            <div class="point" id="purchases-3"></div>
+                            <span class="pop-up" id="pop-purchases-3">
+                                <div class="square">
+                                    <div class="triangle"></div>
+                                    <h1>22</h1>
+                                </div>
+                            </span>
+
+                            <div class="line" id="line-purchases-3"></div>
+                            <div class="point" id="purchases-4"></div>
+                            <span class="pop-up" id="pop-purchases-4">
+                                <div class="square">
+                                    <div class="triangle"></div>
+                                    <h1>36</h1>
+                                </div>
+                            </span>
+
+                            <div class="line" id="line-purchases-4"></div>
+                            <div class="point" id="purchases-5"></div>
+                            <span class="pop-up" id="pop-purchases-5">
+                                <div class="square">
+                                    <div class="triangle"></div>
+                                    <h1>25</h1>
+                                </div>
+                            </span>
+
+                            <div class="line" id="line-purchases-5"></div>
+                            <div class="point" id="purchases-6"></div>
+                            <span class="pop-up" id="pop-purchases-6">
+                                <div class="square">
+                                    <div class="triangle"></div>
+                                    <h1>13</h1>
+                                </div>
+                            </span>
+
+                            <div class="line" id="line-purchases-6"></div>
+                            <div class="point" id="purchases-7"></div>
+                            <span class="pop-up" id="pop-purchases-7">
+                                <div class="square">
+                                    <div class="triangle"></div>
+                                    <h1>20</h1>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="days">
+                    <span>MON</span>
+                    <span>TUE</span>
+                    <span>WED</span>
+                    <span>THU</span>
+                    <span>FRI</span>
+                    <span>SAT</span>
+                    <span>SUN</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>
