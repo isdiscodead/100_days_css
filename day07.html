@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Days CSS : 07</title>
+
+    <style>
+        :root {
+            --main-bg-co: #004643;
+            --btn-co: #f9bc60;
+            --btn-text-co: #001e1d;
+            --headline-co: #fffffe;
+            --secondary-co: #abd1c6;
+            --tertiary-co: #e16162;
+        }
+
+        body {
+            background-color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdata, sans-serif;
+        }
+
+        * {
+            transition: all 450ms;
+        }
+
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        label {
+            margin: 0;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        input {
+            margin: 0;
+            padding: 0;
+        }
+
+        img {
+            margin: 0;
+            padding: 0;
+        }
+
+        input[type=checkbox] { /* input 중에 checkbox만 !! */
+            display: none;
+        }
+
+        .frame {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 400px;
+            height: 400px;
+            margin-top: -200px;
+            margin-left: -200px;
+            box-shadow: 4px 8px 16px 0 rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            background: #242424;
+            color: var(--btn-text-co);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .main-menu {
+            z-index: 2;
+            position: absolute;
+            background-color: var(--headline-co);
+            top: 50%;
+            left: 50%;
+            width: 80%;
+            height: 80%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            border-radius: 9.5px;
+        }
+
+        .side-menu {
+            z-index: 1;
+            position: absolute;
+            background-color: var(--secondary-co);
+            top: 50%;
+            left: 50%;
+            width: 70%;
+            height: 70%;
+            transform: translate(-50%, -50%);
+            border-radius: 9.5px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .side-menu button {
+            height: 20%;
+            width: 50%;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--headline-co);
+            padding-left: 20%;
+            letter-spacing: 0.54px; 
+        }
+
+        .side-menu button:hover {
+            background-color: var(--headline-co);
+            color: var(--btn-text-co);
+        }
+
+        .side-menu button:first-child {
+            border-top-left-radius: 9.5px;
+        }
+
+        .side-menu button:last-child {
+            border-bottom-left-radius: 9.5px;
+        }
+
+        button img {
+            position: absolute;
+            width: 20px;
+            left: 3%;
+        }
+
+        .main-header {
+            background-color: var(--tertiary-co);
+            width: 100%;
+            height: 18%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--headline-co);
+            border-top-left-radius: 7.5px;
+            border-top-right-radius: 7.5px;
+        }
+
+        .main-header div:nth-child(1) {
+            margin: 0 0 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="frame">
+        <input type="checkbox" id="side-opener">
+        <div class="main-menu">
+            <div class="main-header">
+
+                <div>
+                    <label for="side-opener" class="so-label">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAIpJREFUSEvtlV0KgCAQBp2bdbS6WZ1sY4MgynSRJYV2X3zw55NxVFKnolNuiuDPyAfqA7WIzNp4cQeW+1pZ1CLiFqqBwCNnrGAvxKV1wurT6qnVamCzHJW7XDmDcxsZLlhRNxWwWiaG1RZKLmOa5bLa+7bL4YL1WywWUB0Tb/WVQNzjmlNu/f9DvQOXOyofFbggYwAAAABJRU5ErkJggg=="/> 
+                    </label>
+                </div>
+
+                <p>Notifications</p>
+
+                <div>
+                    <label  for="search-opener" class="ns-label">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAhJJREFUSEvlVttRG0EQ7I7AEIFNBOAIjCPARABkgCMwRACOwBABZABEABkgIkBE0K6+mr1a3+3drlSo+PD+qKSd2Z7pnoeIDzr8IFw0A0vaB7ALYAvAEsATyYd1A58FlvQFwC8AxxMADuAWwDnJxSpBTAJLOgVwscJjpyR/t9oXgSVdATjKHrmOzO5JLiWZblP/Y2B3RfKkBXwEPMj0xY+TfJp6TNJeBPU5bH6SvKyB/wMcmj6Hk0H3nKG/R5YHAKy7A3kY3Pm3BL5T03wInFP8NWUaLLjITHE6Dugs6RqZP8blNcmpguxMhsAqORY0z5nsqc3sliS35+jugaNP78L4kKTbpD+SrJuL61aSi8rsfIqeNjuL+P0mnL6TvJ8Cz4Hz9tlO+s0UlcETSBdo1MFrS5HlwGcxLECyaaJJso+Pmeiyk5Tk8lBJ96P41864xMQg45FcuU+zxrW+jGxz+vuuKPkOq9ot4oKptsNExn071uRq6uPGbD3BUh/P6lvqY0+lNLm8bUxXN7nmTmhrUPu/+bPmV5vVBneR1Ga128qgPk0ytW4na+eB0s3nyPBbbKfSaDwhaZ/J81772PQ6sHyVzoK3/APxEHCbuNpL5xzAZTDh7P9kRpPgTRMqetSL35XrDWXNFyXtJTWBNwPXKju/bwHfCHAwlGc+onxjwBm4l86owjcKvFY7raLpOrb/X8Z/AVbTAC6rjOYgAAAAAElFTkSuQmCC"/>
+                    </label>
+                </div>
+                <input type="checkbox" id="search-opener">
+                <input type="text" id="search-bar" placeholder="search for..." class="search-opener-bar">
+            </div>
+
+            <div class="main-content">
+                <div class="mx-seperator"></div>
+                <div class="mc-circles">
+                    <div class="circle first-e"></div>
+                    <div class="circle second-e"></div>
+                    <div class="circle third-e"></div>
+                </div>
+
+                <div class="mc-notifs">
+                    <p class="first-e">
+                        <span class="mcn-date">09:24 am</span>
+                        <br><b>John Smith</b> liked a photo on your wall.
+                    </p>
+                    <p class="second-e">
+                        <span class="mcn-date">08:02 am</span>
+                        <br><b>Mody Wayne</b> commented on your last post.
+                    </p>
+                    <p class="third-e">
+                        <span class="mcn-date">Yesterday</span>
+                        <br><b>Choco Zu</b> is the cutest baby.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="side-menu">
+            <button>
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAQdJREFUSEvtV9ERwUAU3I0C0IFUQAeogA60oAM16CAl6ACViA40wJoLZo5xd3JuJvnI+7232Xk7e/suREPFhnjRHmJJAwBjnxIkj/a5pAmAvgdzJlna528TSxoBOoXl15bsrU2fdC0ArsIYDkleXn2fxDNA+/BHcCSz2YP4dgAwDWM4J2l6q+qIO6ldnmmFuXYAFj+4OrfvcgJXm7uPJXAzweOorCRZ+AKktrnCk37v+HviVMQRkak1oA0Aj9QoySx3Sv2IwGpJmNB3lh19SSIzRrZkxHXXYhLiuLXYbSeXU7p9bCkjqXZkNujqBI+9mOR6YkzSBSLT87yNSa5YTHv+JGInqIu7AxLI9h9/AJyWAAAAAElFTkSuQmCC">
+                Dashboard
+            </button>
+
+            <button>
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAXpJREFUSEvNltFRw0AMRHdDA6ECnAqADkIFUAJUQKiAUAHuAFpIBaQEdxB3QCiAiDn7YBLHtvYYGNs//jiNnnZPlkwM9HAgLn4FNrMbAOex6ILkKlVAEtjM5oC9AMgaoBLgHcm1WoAMjtC3/sS8UuES2MymgG0ATB1FQfklya2nXAXfRou9fIiWv3qBIvhzCfDRS1af2xN5svRiVXAO8N5L9g9gWwD2rIH5QDL3YkXFlsXm8vJ9ALwgWXqBEri6OVNUa2pDPhlcw/uaTGuqbyeSwFF5BuwWwdLYTAUwyRV79+1PBnt3p56PG2xmwdZroHp3jc0twALAiqzevU+v4hpYfb9zL1HjfA1UHd5ZQCfYzMJ8DlBvMXTVFBwI8Na53QrWVqDqQfuqPAInrECVHJTPmquyBZyyiVT28XBpAe/CnD1TU4pxJTmZdQ6QaPO7mCwxjKf7dh8o/tumatZ12GSjAYdvNg7/RCf98PD//fMTOO5Z7YtJjxhM8RcY8pEfMZImwAAAAABJRU5ErkJggg==">
+                Profile
+            </button>
+
+            <button>
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAUxJREFUSEvtlv1RwkAUxHehAUvQDrACoQOtQK3AEsQOtAK1Au1ArAA7kBJoANe588KQeN9EGWZ4/yaX3+2+N9lH7Ki4Iy6qwJKOAFy6Sz+TXJYKKAb/QDUHcOxgC4CnpfBssFN5A+hqA9oINfAnAA+5F8gCSxoDegFgLI7VEuAFyVnK+iRYMgr1mPpQ+zmvSetAsKJgSSPXzzKufdv2/SN0MAH+MpadVVDNkRk5mBSDt1Pb4MKqg4ql1RTgbaVad0x35HDq+0YEvJXNDeudHIwPYDvzoR5KB6ur5ntPhsv9PN4yQiFlgwmNie/X+Wu4eoQ2l/LCW2AX8p89KO06YeAnm1ndBZvcNRb/QVnL1zn9n+BWTHp6vLoHOOpXshbk0KxM60puIP1eoBIcz+j4xtEVUKzYn9Ph3C3eQGIWu1X33L3zmrvS7l+P+xy0bwlskx83TkpdAAAAAElFTkSuQmCC">
+                Notifications
+            </button>
+
+            <button>
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAATFJREFUSEvtltFRwzAQRN+SAqAEOkg6IFSAS4AO6IBQAS1ABYQKoISkA0oIBZDNOLaJHYTFjKL4J/rzjE9Pd1rdrRhoaSAuUbDtC+AGuEw45CfwJmnV7NELrqB+ByYJ0CZ0Abpu4DHwPfjpANB6C91Jei4/oqVOgdouwCXovNrHj9Jolh28RVXw115wLiHZa/8JzimkGDibkCLg7xnoIUVM3didkE7gznOyT6VOlVlIXIGWeYRSL0HTX0MiL9i3wDw4FnOCQ5f2M50GBDtby4xkvHUbH8A4Vc9AR0i94Hp2lv6qgHXtrzQFrgKBS/A8fMCz0l91hBQF7/8Qvne/SKNSpUkr4rn22+iuASRRY56rlfFX/fgXqcAm/j8ZF+2OcySwJ5IOlmX70FntbV91BgNvAOK84R8i4l9iAAAAAElFTkSuQmCC">
+                Messages
+            </button>
+
+            <button>
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAclJREFUSEvNVtFVAjEQnAkFaAdiBUIFYgVgBUgJViBUoB14VCBUIFQgVuDZgRbArS8cp1wuySXw7p354T0uu7ObnZ1doqXDlnARBSwiXQBDAOeWgOck09BEIoGzxR7Y4l/mZOeuKeAVgGuH8zWpBk0BbwBcOZxvSNU/CVhkOwX4AGAB8B5AF5Dn/Nd7UoATACkgjwBGgMzIztS0qtQ4J5B8HFz8cpDJF4Fhw0uTeBZgH4FCH7Jyb0Gq28N/S8AiMgDk9Wj3XkPekNTk3B0DOPORp7BZAnwqnOyD1TV0sb2wK5HvF1hEeoC8+bPlhGRiu3NASI+Lv6yNjLcJwLHDckmqkS8wkczX5yV7G6sddS7XyJ61iyNVW6tkimRS6TuqIHkNtf0/wO6WCnpqrVQv1TLUPLWIVzwqImAC+MklCdnRclru4zDx4JTk7IR26pPUWnGUgKyAXQBr7WAfsB4odSPxnVQ9h3K1JJl5Bo0MiYr4hIzFbwBnkYPDsAkYi3nWxSIgc0DpAaBntNboi5oAPgHqvSsFMr1MjPViYNP3IDUqwES806tEnroXigVubdlra73dLfQjILMs9CppbKGvq1vM96gaxziuu/sDkhzWH7EI3xkAAAAASUVORK5CYII=">
+                Settings
+            </button>
+        </div>
+
+    </div>
+    
+</body>
+</html>
